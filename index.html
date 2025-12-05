@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>焦月 - 個人作品集與圖片管理</title>
+    <!-- 引入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* 新增：讓點擊錨點連結時，頁面能平滑滾動 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* ======================================= */
+        /* === 自定義樣式配置 (深色模式為預設) === */
+        /* ======================================= */
+        :root {
+            /* === 獸文化 / 深色大地色主題 (Default) === */
+            --bg-color: #141418; /* 深炭黑背景 */
+            --text-color: #f7f7f7; /* 接近白色文字 */
+            --accent-color: #B1884B; /* 主要強調色 (豐富的金色/青銅色) */
+            --secondary-accent: #8C6B3A; /* 次要強調色 (深金色) */
+            --card-bg: #222226; /* 卡片/區塊背景 */
+            --border-color: #33333A; /* 邊框顏色 */
+            --info-color: #A0A0A0; /* 次要資訊文字顏色 */
+        }
+
+        /* 淺色模式覆蓋 */
+        .light-mode {
+            --bg-color: #F5F5F0; /* 淺色背景 (米白/羊皮紙色) */
+            --text-color: #1F1F1F; /* 深色文字 */
+            --accent-color: #927A59; /* 深色調金色強調 */
+            --secondary-accent: #7D6541; /* 更深的金色 */
+            --card-bg: #FFFFFF; /* 白色卡片背景 */
+            --border-color: #CCCCCC; /* 淺灰邊框 */
+            --info-color: #555555; /* 深灰資訊文字 */
+        }
+
+        body {
+            /* 設置 Inter 字體並繼承 Tailwind 的 bg-gray-900 和 text-gray-200 */
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            /* 確保背景顏色是主要的深色，使用變數 */
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            
+            /* 深色背景紋理 */
+            background-image: 
+                radial-gradient(var(--border-color) 0.5px, transparent 0.5px),
+                radial-gradient(var(--border-color) 0.5px, transparent 0.5px);
+            background-size: 25px 25px;
+            background-position: 0 0, 12.5px 12.5px;
+        }
+
+        /* 淺色模式下的背景紋理調整 */
+        .light-mode body {
+            background-image: 
+                radial-gradient(var(--border-color) 0.5px, transparent 0.5px),
+                radial-gradient(var(--border-color) 0.5px, transparent 0.5px);
+        }
+
+        /* 確保全寬度區塊背景延伸 */
+        .full-width-section {
+            width: 100%;
+            padding: 80px 0; /* 垂直內邊距 */
+            background-color: var(--bg-color); /* 使用變數 */
+        }
+        
+        /* 容器：限制內容最大寬度並居中 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 導航欄樣式 */
+        .navbar {
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* ======================================= */
+        /* === 導航連結 (應用液態玻璃概念) === */
+        /* ======================================= */
+        .nav-link-glass {
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--info-color); /* 預設顏色 */
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid transparent; /* 佔位符 */
+        }
+        
+        .nav-link-glass:hover,
+        .nav-link-glass.active {
+            color: var(--text-color); /* 懸停時變亮/變暗 */
+            /* 使用 accent-color 的 RGBA 製作液態玻璃效果 */
+            background-color: var(--accent-color, #B1884B)1A; /* 10% alpha */
+            border-color: var(--accent-color, #B1884B)66; /* 40% alpha */
+            box-shadow: 0 0 10px var(--accent-color, #B1884B)66; /* 金色發光效果 */
+            transform: translateY(-1px); /* 輕微抬升 */
+        }
+        
+        .nav-link-glass.active {
+            font-weight: 700;
+            color: var(--accent-color); /* 活躍連結使用強調色 */
+            border: 1px solid var(--accent-color);
+            background-color: var(--accent-color, #B1884B)26; /* 15% alpha */
+        }
+
+        /* 按鈕樣式 (使用 Tailwind 覆蓋部分) */
+        .btn {
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px; /* 增加圓角 */
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn.primary {
+            background-color: var(--accent-color);
+            color: var(--bg-color); /* 讓按鈕文字更突出 (在淺色模式下為白色文字) */
+            border: none;
+        }
+        .btn.primary:hover {
+            background-color: var(--secondary-accent);
+            box-shadow: 0 4px 15px var(--accent-color, #B1884B)66; /* 金色陰影 */
+        }
+        .btn.secondary {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--info-color); 
+        }
+        .btn.secondary:hover {
+            background-color: var(--text-color)1A; /* 輕微的文字顏色透明度 */
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* 英雄區塊樣式 */
+        .hero-section {
+            padding: 80px 0;
+        }
+
+        .hero-section h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .hero-section .greeting {
+            color: var(--accent-color); /* 使用新強調色 */
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .hero-section .description {
+            color: var(--info-color);
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* ======================================= */
+        /* === 液態玻璃卡片效果 (Liquid Glass) === */
+        /* ======================================= */
+        .liquid-glass-card {
+            /* 1. 設置模糊和半透明背景 (深色模式預設) */
+            background-color: rgba(34, 34, 38, 0.6); /* 略透明的 card-bg */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); 
+            
+            /* 2. 增加邊框 */
+            border: 1px solid rgba(177, 136, 75, 0.3); 
+            
+            /* 3. 液態/陰影效果 */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
+            border-radius: 12px; 
+            transition: all 0.3s;
+        }
+
+        /* 淺色模式下 液態玻璃卡片覆蓋 */
+        .light-mode .liquid-glass-card {
+            background-color: rgba(255, 255, 255, 0.75); /* 輕微透明的白色 */
+            border: 1px solid rgba(150, 150, 150, 0.3); /* 淺色邊框 */
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.1); /* 較輕的陰影 */
+        }
+        
+        /* 作品卡片 hover 效果更新 */
+        .work-card.liquid-glass-card:hover {
+             /* 深色模式 hover 效果 */
+             box-shadow: 0 4px 25px rgba(177, 136, 75, 0.6), 0 0 50px rgba(177, 136, 75, 0.2); 
+             transform: scale(1.02); 
+        }
+
+        .light-mode .work-card.liquid-glass-card:hover {
+             /* 淺色模式 hover 效果 */
+             box-shadow: 0 4px 25px rgba(146, 122, 89, 0.4), 0 0 20px rgba(146, 122, 89, 0.1); 
+        }
+        
+        /* 圖片/視覺區塊 - 光環使用 accent-color 變數 */
+        .visual-container {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%; 
+            overflow: hidden;
+            box-shadow: 0 0 0 10px var(--accent-color)4D, 0 0 40px var(--accent-color)80; /* 金色光環 */
+        }
+        
+    </style>
+</head>
+<!-- 移除 Tailwind 顏色類別，讓 CSS 變數控制主題 -->
+<body class="min-h-screen"> 
+
+    <!-- 導航欄 -->
+    <header class="navbar flex justify-between items-center px-5 sm:px-20 py-5">
+        
+        <!-- 左側群組: Logo 和 主題切換 -->
+        <div class="flex items-center space-x-4 sm:space-x-8">
+             <!-- 主題切換按鈕 -->
+            <button id="theme-toggle" class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition-colors text-xl p-2 rounded-full focus:outline-none">
+                <!-- 預設為太陽圖標 (深色模式) -->
+                <i id="theme-icon" class="fas fa-sun"></i> 
+            </button>
+            <div class="logo text-2xl font-bold"><a href="#hero" class="text-[var(--text-color)] hover:text-[var(--accent-color)] transition-colors">焦月.</a></div> 
+        </div>
+        
+        <!-- 右側群組: 導航連結 -->
+        <div class="flex items-center">
+            <!-- 導航連結 -->
+            <nav class="hidden sm:flex space-x-2">
+                <a href="#about" class="nav-link-glass">關於</a>
+                <a href="#portfolio" class="nav-link-glass">作品</a> 
+                <a href="#channels" class="nav-link-glass">社群</a>
+                <a href="#contact" class="nav-link-glass">聯絡</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 英雄區塊 -->
+        <section id="hero" class="hero-section flex flex-col md:flex-row items-center justify-between">
+            <div class="left-content w-full md:w-1/2 order-2 md:order-1 text-center md:text-left">
+                <p class="greeting">HELLO, I'M</p>
+                <h1>焦月</h1>
+                <p class="info text-lg text-[var(--info-color)] mb-3">生日：3月25日</p>
+                
+                <!-- 應用 Liquid Glass 效果 -->
+                <div class="countdown-box liquid-glass-card mx-auto md:mx-0 p-4 mt-4 w-fit">
+                    <p>距離生日還有：</p>
+                    <div id="countdown-timer" class="countdown-timer text-2xl font-mono text-[var(--text-color)]">00天 00時 00分 00秒</div>
+                </div>
+
+                <div class="btn-group flex flex-col sm:flex-row mt-8 space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                    <a href="#channels" class="btn primary">社群連結</a>
+                    <a href="#contact" class="btn secondary">聯絡我</a>
+                </div>
+            </div>
+
+            <!-- 右側視覺，圖片路徑已更新為 images/jiao_yue_profile.jpg -->
+            <div class="right-visual w-full md:w-1/2 flex justify-center md:justify-end order-1 md:order-2 mb-8 md:mb-0">
+                <div class="visual-container">
+                    <!-- 【個人頭像】請將 src 替換為您的實際檔案名稱 -->
+                    <img id="profile-pic" 
+                         src="images/jiao_yue_profile.jpg" 
+                         alt="焦月個人頭像"
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://placehold.co/350x350/B1884B/141418?text=Jiao+Yue+Furry'">
+                </div>
+            </div>
+        </section>
+
+        <!-- 關於區塊 -->
+        <section id="about" class="full-width-section border-t border-[var(--border-color)]">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-8 text-[var(--text-color)] text-center">關於我</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 text-lg">
+                    <!-- 左欄: 個人簡介 -->
+                    <div class="liquid-glass-card p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-3 text-[var(--accent-color)]">個人簡介</h3>
+                        <p>
+                            我是焦月，一位獸控。
+                        </p>
+                    </div>
+                    
+                    <!-- 右欄: 獸設介紹 (新增) -->
+                    <div class="liquid-glass-card p-6 rounded-xl">
+                        <h3 class="text-2xl font-semibold mb-3 text-[var(--accent-color)]">我的獸設</h3>
+                        <p class="text-base text-[var(--info-color)]">
+                            <span class="font-medium text-[var(--text-color)]">名稱:</span> 焦月 (Jiao Yue)
+                            <br>
+                            <span class="font-medium text-[var(--text-color)]">物種:</span> 柴犬 (Shiba Inu)
+                            <br>
+                            <span class="font-medium text-[var(--text-color)]">特徵:</span> 擁有溫暖的灰色毛皮和尾巴。
+                            <br>
+                            <span class="font-medium text-[var(--text-color)]">個性:</span> 充滿好奇心、喜歡幫助朋友，會很害羞。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 作品展示區塊 (Portfolio Section) -->
+        <section id="portfolio" class="full-width-section border-t border-[var(--border-color)]">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-12 text-[var(--text-color)] text-center">🎨 我的精選作品</h2>
+                
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    
+                    <!-- 作品卡片 1: 遊戲實況精華 - 應用 Liquid Glass 效果 -->
+                    <div class="work-card liquid-glass-card p-6 rounded-xl shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                        <!-- 【作品圖 1】請將 src 替換為您的實際檔案名稱 -->
+                        <img id="work-image-1" 
+                             src="images/youtube_work.jpg" 
+                             alt="遊戲實況精華封面圖" 
+                             class="rounded-lg mb-4 w-full h-auto object-cover border border-[var(--border-color)]"
+                             onerror="this.src='https://placehold.co/400x250/33333A/FFFFFF?text=YouTube+Placeholder'">
+                        <h3 class="text-xl font-semibold text-[var(--text-color)] mb-2">YouTube 影片</h3>
+                        <p class="text-[var(--info-color)] mb-4 text-sm">
+                            收錄了我在 YouTube 所有影片作品
+                        </p>
+                        <a href="https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA" target="_blank" class="text-[var(--accent-color)] hover:text-[var(--secondary-accent)] font-medium">
+                            <i class="fab fa-youtube mr-1"></i> 前往 YouTube 頻道
+                        </a>
+                    </div>
+
+                    <!-- 作品卡片 2: 繪畫與藝術創作 - 應用 Liquid Glass 效果 -->
+                    <div class="work-card liquid-glass-card p-6 rounded-xl shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                        <!-- 【作品圖 2】請將 src 替換為您的實際檔案名稱 -->
+                        <img id="work-image-2" 
+                             src="images/digital_art.jpg" 
+                             alt="數位藝術作品圖" 
+                             class="rounded-lg mb-4 w-full h-auto object-cover border border-[var(--border-color)]"
+                             onerror="this.src='https://placehold.co/400x250/B1884B/141418?text=Digital+Art+Furry'">
+                        <h3 class="text-xl font-semibold text-[var(--text-color)] mb-2">數位作品 </h3>
+                        <p class="text-[var(--info-color)] mb-4 text-sm">
+                            展示我近期的電繪作品。
+                        </p>
+                        <a href="https://www.penup.com/profile/1737639369583161" target="_blank" class="text-[var(--accent-color)] hover:text-[var(--secondary-accent)] font-medium">
+                            <i class="fas fa-palette mr-1"></i> 前往 PENUP 欣賞
+                        </a>
+                    </div>
+
+                    <!-- 作品卡片 3: 網站或程式設計專案 (範例) - 應用 Liquid Glass 效果 -->
+                    <div class="work-card liquid-glass-card p-6 rounded-xl shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                        <!-- 【作品圖 3】請將 src 替換為您的實際檔案名稱 -->
+                        <img id="work-image-3" 
+                             src="images/other_works.jpg" 
+                             alt="更多數位作品" 
+                             class="rounded-lg mb-4 w-full h-auto object-cover border border-[var(--border-color)]"
+                             onerror="this.src='https://placehold.co/400x250/2d3748/FFFFFF?text=More+Works+Placeholder'">
+                        <h3 class="text-xl font-semibold text-[var(--text-color)] mb-2">其他作品</h3>
+                        <p class="text-[var(--info-color)] mb-4 text-sm">
+                            展示其他電繪作品
+                        </p>
+                        <a href="https://www.penup.com/profile/1737639369583161" target="_blank" class="text-[var(--accent-color)] hover:text-[var(--secondary-accent)] font-medium">
+                            <i class="fas fa-desktop mr-1"></i> 前往 PENUP 欣賞
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 社群區塊 -->
+        <section id="channels" class="full-width-section border-t border-[var(--border-color)]">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-8 text-[var(--text-color)] text-center">🔗 我的社群頻道</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    
+                    <!-- 保持社群按鈕原有的品牌色，讓它們維持辨識度 -->
+                    <a href="https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA" target="_blank" class="social-btn flex items-center bg-red-600 hover:bg-red-700 text-white rounded-lg p-3">
+                        <i class="fab fa-youtube w-5 text-center mr-2"></i> YouTube 焦月愛網路
+                    </a>
+                    <a href="https://www.twitch.tv/louis1000325" target="_blank" class="social-btn flex items-center bg-purple-600 hover:bg-purple-700 text-white rounded-lg p-3">
+                        <i class="fab fa-twitch w-5 text-center mr-2"></i> Twitch 焦月
+                    </a>
+                    <a href="https://x.com/xingxing1443469" target="_blank" class="social-btn flex items-center bg-gray-800 hover:bg-black text-white rounded-lg p-3">
+                        <i class="fab fa-x-twitter w-5 text-center mr-2"></i> X Jiao Yue 
+                    </a>
+                    <a href="https://www.tiktok.com/@louis1233344" target="_blank" class="social-btn flex items-center bg-gray-900 hover:bg-gray-800 text-white rounded-lg p-3">
+                        <i class="fab fa-tiktok w-5 text-center mr-2 text-green-400"></i> TikTok louis1233344 
+                    </a>
+                    <a href="https://space.bilibili.com/1352630702" target="_blank" class="social-btn flex items-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-3">
+                        <i class="fab fa-bilibili w-5 text-center mr-2"></i> Bilibili 焦月愛網路 
+                    </a>
+                    <a href="https://www.roblox.com/users/3613032430/profile" target="_blank" class="social-btn flex items-center bg-blue-400 hover:bg-blue-500 text-white rounded-lg p-3">
+                        <i class="fab fa-roblox w-5 text-center mr-2"></i> Roblox YT_JiaoYue 
+                    </a>
+                    <a href="https://www.penup.com/profile/1737639369583161" target="_blank" class="social-btn flex items-center bg-pink-400 hover:bg-pink-500 text-white rounded-lg p-3">
+                        <i class="fas fa-palette w-5 text-center mr-2"></i> PENUP furry_Jiao_Yue 
+                    </a>
+                    <a href="https://www.facebook.com/share/16FViTKZHL/" target="_blank" class="social-btn flex items-center bg-blue-800 hover:bg-blue-900 text-white rounded-lg p-3">
+                        <i class="fab fa-facebook w-5 text-center mr-2"></i> Facebook 焦月
+                    </a>
+                    <a href="https://www.instagram.com/louis1234433" target="_blank" class="social-btn flex items-center bg-pink-600 hover:bg-pink-700 text-white rounded-lg p-3">
+                        <i class="fab fa-instagram w-5 text-center mr-2"></i> Instagram louis1234433
+                    </a>
+                    <!-- Discord 社群連結 (新增) -->
+                    <a href="https://discord.gg/bxyZEZ5X" target="_blank" class="social-btn flex items-center bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-lg p-3">
+                        <i class="fab fa-discord w-5 text-center mr-2"></i> Discord 聯絡焦月
+                    </a>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- 聯絡區塊 (Contact Section) -->
+        <section id="contact" class="full-width-section border-t border-[var(--border-color)]">
+            <div class="container text-center">
+                <h2 class="text-3xl font-bold mb-6 text-[var(--text-color)]">✉️ 聯絡我 (Contact)</h2>
+                <!-- 應用 Liquid Glass 效果，並移除舊的背景和邊框類別 -->
+                <div class="liquid-glass-card p-8 rounded-xl shadow-lg max-w-lg mx-auto">
+                    <h3 class="text-2xl font-semibold text-[var(--text-color)] mb-4">期待您的合作與交流！</h3>
+                    <p class="mb-6 text-[var(--info-color)]">如果您對影音剪輯服務、合作提案或任何疑問，請透過以下電子郵件與我聯繫：</p>
+                    <a href="mailto:yuminloiuis0325@gmail.com" class="text-xl font-bold text-[var(--accent-color)] hover:text-[var(--secondary-accent)] transition-colors">
+                        <i class="fas fa-envelope mr-2"></i> yuminloiuis0325@gmail.com
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 底部保留一個額外的分界線，以保持與刪除區塊前的視覺連貫性 -->
+        <div class="border-t border-[var(--border-color)]"></div>
+    </main>
+
+    <footer class="text-center py-6 border-t border-[var(--border-color)] text-[var(--info-color)]">
+        <p>&copy; 2025 焦月. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 確保在整個 HTML 結構載入完成後才執行腳本
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log("Scripts loaded successfully.");
+
+            // 倒數計時器邏輯
+            function updateCountdown() {
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                
+                // 焦月的生日：3月25日 (JavaScript 月份是 0-11，所以 3月是 2)
+                let birthday = new Date(currentYear, 2, 25); 
+                
+                // 如果今年的生日已經過了，則設定為明年的生日
+                if (now > birthday) {
+                    birthday = new Date(currentYear + 1, 2, 25);
+                }
+
+                const diff = birthday - now;
+
+                // 獲取顯示元素
+                const countdownEl = document.getElementById('countdown-timer');
+
+                if (countdownEl) {
+                    if (diff > 0) {
+                        // 時間計算
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        // 格式化輸出
+                        countdownEl.textContent = 
+                            `${String(days).padStart(2, '0')}天 ` + 
+                            `${String(hours).padStart(2, '0')}時 ` + 
+                            `${String(minutes).padStart(2, '0')}分 ` + 
+                            `${String(seconds).padStart(2, '0')}秒`;
+                    } else {
+                        // 生日當天的預設訊息
+                        countdownEl.textContent = "生日快樂！🎉"; 
+                    }
+                }
+            }
+            
+            // 主題切換邏輯
+            function setupThemeToggle() {
+                const toggleButton = document.getElementById('theme-toggle');
+                const body = document.body;
+                const icon = document.getElementById('theme-icon');
+                const localStorageKey = 'themePreference';
+
+                // 1. 頁面載入時檢查已儲存的偏好
+                const savedTheme = localStorage.getItem(localStorageKey);
+                
+                // 預設為 Dark Mode，除非明確設定為 Light Mode
+                if (savedTheme === 'light') {
+                    body.classList.add('light-mode');
+                    icon.className = 'fas fa-moon'; // 月亮圖標 (表示可切換到 Dark Mode)
+                } else {
+                    body.classList.remove('light-mode');
+                    icon.className = 'fas fa-sun'; // 太陽圖標 (表示可切換到 Light Mode)
+                }
+
+                // 2. 切換按鈕的事件監聽器
+                toggleButton.addEventListener('click', () => {
+                    if (body.classList.contains('light-mode')) {
+                        // 當前為 Light Mode，切換到 Dark Mode
+                        body.classList.remove('light-mode');
+                        icon.className = 'fas fa-sun';
+                        localStorage.setItem(localStorageKey, 'dark');
+                    } else {
+                        // 當前為 Dark Mode，切換到 Light Mode
+                        body.classList.add('light-mode');
+                        icon.className = 'fas fa-moon';
+                        localStorage.setItem(localStorageKey, 'light');
+                    }
+                    console.log(`Theme switched to: ${body.classList.contains('light-mode') ? 'Light' : 'Dark'}`);
+                });
+            }
+
+            // 導航連結活躍狀態偵測邏輯
+            function setupNavLinkObserver() {
+                const sections = document.querySelectorAll('main section');
+                const navLinks = document.querySelectorAll('.nav-link-glass');
+
+                // 調整 rootMargin 以考慮粘性導航欄的高度 (約 80px)
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '-80px 0px -80px 0px', 
+                    threshold: 0.05 
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // 移除所有連結的 active 類別
+                            navLinks.forEach(link => link.classList.remove('active'));
+
+                            // 找出對應的連結並添加 active 類別
+                            const targetId = entry.target.getAttribute('id');
+                            const activeLink = document.querySelector(`.nav-link-glass[href="#${targetId}"]`);
+                            if (activeLink) {
+                                activeLink.classList.add('active');
+                            }
+                        }
+                    });
+                }, observerOptions);
+
+                // 觀察每個主要區塊
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+                
+                // 處理 Hero 區塊高亮
+                const heroLink = document.querySelector('.nav-link-glass[href="#hero"]');
+                if (heroLink) {
+                    // 確保在頁面頂部時 Hero 連結是活躍的
+                    if (window.scrollY < 100) { 
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        heroLink.classList.add('active');
+                    }
+                }
+            }
+
+
+            // --- 啟動區塊 ---
+            setupThemeToggle(); // 啟動主題切換功能
+            updateCountdown(); // 立即執行一次倒數計時器
+            setInterval(updateCountdown, 1000); // 每秒更新一次
+            setupNavLinkObserver(); // 設置導航連結觀察者
+            
+            // 監聽滾動事件，再次檢查 Hero 區塊活躍狀態
+            window.addEventListener('scroll', () => {
+                const navLinks = document.querySelectorAll('.nav-link-glass');
+                const heroLink = document.querySelector('.nav-link-glass[href="#hero"]');
+                 if (window.scrollY < 100) {
+                     navLinks.forEach(link => link.classList.remove('active'));
+                     if(heroLink) heroLink.classList.add('active');
+                 }
+            });
+        });
+    </script>
+</body>
+
+</html>
