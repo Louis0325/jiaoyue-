@@ -21,6 +21,7 @@ window.translations.zh = {
     advertiser1_name: "Asteroid Host", advertiser1_desc: "免費託管服務。", advertiser1_btn: "訪問網站",
     advertiser2_name: "鑽石託管", advertiser2_desc: "minecraft伺服器託管首選，使用優惠碼\"鑽鑽\"享有專屬折扣！", advertiser2_btn: "訪問網站",
     advertiser3_name: "超大咖託管", advertiser3_desc: "Minecraft 基岩版伺服器託管首選。", advertiser3_btn: "訪問網站",
-    footer_slogan: "© 2024 焦月. 讓創意照亮網路的每一個角落。",
+    footer_slogan: "© 2025 焦月. 讓創意照亮網路的每一個角落。",
     lang_choice: "語言選擇", current_lang: "中文"
 };
+
