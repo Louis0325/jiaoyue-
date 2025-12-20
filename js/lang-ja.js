@@ -21,6 +21,7 @@ window.translations.ja = {
     advertiser1_name: "Asteroid Host", advertiser1_desc: "無料のホスティングサービス", advertiser1_btn: "サイトへ",
     advertiser2_name: "DiamondHost", advertiser2_desc: "Minecraftサーバーホスティングの最良の選択。クーポンコード「鑽鑽」で特別割引！", advertiser2_btn: "サイトへ",
     advertiser3_name: "CoffeeHost", advertiser3_desc: "Minecraft統合版サーバーホスティングの最良の選択。", advertiser3_btn: "サイトへ",
-    footer_slogan: "© 2024 焦月. 創造性でネットの隅々を照らします。",
+    footer_slogan: "© 2025 焦月. 創造性でネットの隅々を照らします。",
     lang_choice: "言語選択", current_lang: "日本語"
 };
+
