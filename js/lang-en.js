@@ -21,6 +21,7 @@ window.translations.en = {
     advertiser1_name: "Asteroid Host", advertiser1_desc: "Free hosting service", advertiser1_btn: "Visit Website",
     advertiser2_name: "DiamondHost", advertiser2_desc: "Top choice for Minecraft server hosting. Use code '鑽鑽' for exclusive discounts!", advertiser2_btn: "Visit Website",
     advertiser3_name: "CoffeeHost", advertiser3_desc: "Top choice for Minecraft Bedrock server hosting.", advertiser3_btn: "Visit Website",
-    footer_slogan: "© 2024 Jiao Yue. Lighting up the web with creativity.",
+    footer_slogan: "© 2025 Jiao Yue. Lighting up the web with creativity.",
     lang_choice: "Language", current_lang: "English"
 };
+
