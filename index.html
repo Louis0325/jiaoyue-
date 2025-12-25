@@ -1,0 +1,820 @@
+2
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>焦月 Jiao Yue | 個人作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0d1117',
+                        darkCard: '#161b22',
+                        darkBorder: '#30363d',
+                        lightBg: '#f8fafc',
+                        lightCard: '#ffffff',
+                        lightBorder: '#e2e8f0',
+                        accentBlue: '#58a6ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body class="bg-lightBg dark:bg-darkBg text-slate-800 dark:text-[#c9d1d9] antialiased">
+
+    <!-- 頂部導覽列 -->
+    <header
+        class="fixed top-0 w-full z-50 bg-white/80 dark:bg-darkBg/80 backdrop-blur-md border-b border-lightBorder dark:border-darkBorder">
+        <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- 點擊 Logo 回到最上方 -->
+            <a href="javascript:void(0)" onclick="scrollToTop()"
+                class="text-xl font-bold text-slate-900 dark:text-[#f0f6fc] tracking-tight">
+                JIAO<span class="text-accentBlue">YUE</span>
+            </a>
+
+            <!-- 桌面版連結 -->
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium" id="desktop-nav">
+                <a href="#about" data-t="nav_about" class="nav-link hover:text-accentBlue transition-colors">關於</a>
+                <a href="#works" data-t="nav_works" class="nav-link hover:text-accentBlue transition-colors">作品</a>
+                <a href="#social" data-t="nav_social" class="nav-link hover:text-accentBlue transition-colors">社群</a>
+                <a href="#advertise" data-t="nav_advertise"
+                    class="nav-link hover:text-accentBlue transition-colors">廣告</a>
+                <a href="#contact" data-t="nav_contact" class="nav-link hover:text-accentBlue transition-colors">聯絡</a>
+
+                <!-- 語言選擇 (桌面) -->
+                <div class="relative dropdown border-l border-slate-200 dark:border-slate-700 pl-6 ml-2"
+                    id="lang-dropdown">
+                    <button onclick="toggleLangDropdown(event)"
+                        class="flex items-center gap-1 hover:text-accentBlue transition-colors outline-none">
+                        <i class="fas fa-globe"></i>
+                        <span id="current-lang-label">中文</span>
+                        <i class="fas fa-chevron-down text-[10px] ml-1 opacity-50"></i>
+                    </button>
+                    <div
+                        class="dropdown-menu w-32 bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-lg shadow-xl overflow-hidden">
+                        <button onclick="changeLang('zh')"
+                            class="block w-full text-left px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">繁體中文</button>
+                        <button onclick="changeLang('zh-Hans')"
+                            class="block w-full text-left px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">簡體中文</button>
+                        <button onclick="changeLang('en')"
+                            class="block w-full text-left px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">English</button>
+                        <button onclick="changeLang('ja')"
+                            class="block w-full text-left px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">日本語</button>
+                    </div>
+                </div>
+
+                <!-- 深淺色切換按鈕 (桌面) -->
+                <button onclick="toggleTheme()"
+                    class="p-2 rounded-lg bg-slate-100 dark:bg-darkCard hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">
+                    <i id="theme-icon" class="fas fa-moon text-slate-600 dark:text-yellow-400"></i>
+                </button>
+            </div>
+
+            <!-- 手機版右側按鈕區 -->
+            <div class="flex items-center gap-4 md:hidden">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-darkCard">
+                    <i id="theme-icon-mobile" class="fas fa-moon text-slate-600 dark:text-yellow-400"></i>
+                </button>
+                <button onclick="toggleMobileMenu(true)" class="text-2xl text-slate-800 dark:text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 手機版側邊選單 -->
+    <div id="mobile-menu-overlay" onclick="toggleMobileMenu(false)"
+        class="fixed inset-0 bg-black/50 z-[60] hidden backdrop-blur-sm"></div>
+    <div id="mobile-menu"
+        class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-darkCard z-[70] shadow-2xl p-6 border-l border-lightBorder dark:border-darkBorder overflow-y-auto">
+        <div class="flex justify-end mb-8">
+            <button onclick="toggleMobileMenu(false)" class="text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex flex-col space-y-6 text-lg font-semibold mb-8">
+            <a href="#about" onclick="toggleMobileMenu(false)" data-t="nav_about"
+                class="flex items-center gap-3 hover:text-accentBlue"><i class="fas fa-user w-6 text-center"></i> 關於</a>
+            <a href="#works" onclick="toggleMobileMenu(false)" data-t="nav_works"
+                class="flex items-center gap-3 hover:text-accentBlue"><i class="fas fa-th-large w-6 text-center"></i>
+                作品</a>
+            <a href="#social" onclick="toggleMobileMenu(false)" data-t="nav_social"
+                class="flex items-center gap-3 hover:text-accentBlue"><i class="fas fa-share-alt w-6 text-center"></i>
+                社群</a>
+            <a href="#advertise" onclick="toggleMobileMenu(false)" data-t="nav_advertise"
+                class="flex items-center gap-3 hover:text-accentBlue"><i class="fas fa-bullhorn w-6 text-center"></i>
+                廣告</a>
+            <a href="#contact" onclick="toggleMobileMenu(false)" data-t="nav_contact"
+                class="flex items-center gap-3 hover:text-accentBlue"><i class="fas fa-envelope w-6 text-center"></i>
+                聯絡</a>
+        </div>
+
+        <div class="pt-6 border-t border-lightBorder dark:border-darkBorder">
+            <p class="text-xs text-slate-400 mb-4 uppercase tracking-widest font-bold" data-t="lang_choice">語言選擇</p>
+            <div class="grid grid-cols-1 gap-2">
+                <button onclick="changeLang('zh'); toggleMobileMenu(false);"
+                    class="text-left px-4 py-2 rounded-lg bg-slate-100 dark:bg-darkBg text-sm font-medium">繁體中文</button>
+                <button onclick="changeLang('en'); toggleMobileMenu(false);"
+                    class="text-left px-4 py-2 rounded-lg bg-slate-100 dark:bg-darkBg text-sm font-medium">English</button>
+                <button onclick="changeLang('ja'); toggleMobileMenu(false);"
+                    class="text-left px-4 py-2 rounded-lg bg-slate-100 dark:bg-darkBg text-sm font-medium">日本語</button>
+                <button onclick="changeLang('zh-Hans'); toggleMobileMenu(false);"
+                    class="text-left px-4 py-2 rounded-lg bg-slate-100 dark:bg-darkBg text-sm font-medium">簡體中文</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-6 pt-32 pb-20">
+
+        <!-- Hero Section (關於我) -->
+        <section id="about" class="mb-24 reveal">
+            <div class="grid lg:grid-cols-12 gap-12 items-center mb-12">
+                <div class="lg:col-span-4 flex justify-center">
+                    <div class="relative group">
+                        <div
+                            class="absolute -inset-1 bg-gradient-to-r from-accentBlue to-[#bc8cff] rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                        </div>
+                        <img src="images/jiao_yue_profile.jpg" alt="皎月"
+                            class="relative w-64 h-64 rounded-full object-cover border-4 border-lightBorder dark:border-darkBorder avatar-glow"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Jiao+Yue&background=161b22&color=58a6ff&size=256'">
+                    </div>
+                </div>
+                <div class="lg:col-span-8 text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-[#f0f6fc] mb-4">
+                        👋 <span data-t="hero_greeting">你好，我是</span> <span class="text-accentBlue">焦月</span>
+                    </h1>
+                    <p class="text-xl text-slate-500 dark:text-[#8b949e] mb-6 font-light" data-t="hero_sub">
+                        數位創作者 / 柴犬獸人 / 生活藝術探索者
+                    </p>
+
+                    <!-- 關於我兩欄式內容 -->
+                    <div class="grid md:grid-cols-2 gap-6 text-left mb-6">
+                        <!-- 個人簡介 -->
+                        <div
+                            class="wuzuan-card p-6 bg-white dark:bg-darkCard/50 border border-lightBorder dark:border-darkBorder border-dashed rounded-xl reveal reveal-delay-1">
+                            <h3 class="text-xl font-semibold mb-3 text-accentBlue" data-t="hero_intro_title">個人簡介</h3>
+                            <p class="leading-relaxed" data-t="hero_intro_content">
+                                我是焦月，一位獸控，喜歡咬別人咬不到就咬自己😅
+                            </p>
+                        </div>
+
+                        <!-- 獸設介紹 -->
+                        <div
+                            class="wuzuan-card p-6 bg-white dark:bg-darkCard/50 border border-lightBorder dark:border-darkBorder border-dashed rounded-xl reveal reveal-delay-2">
+                            <h3 class="text-xl font-semibold mb-3 text-accentBlue" data-t="furry_title">我的獸設</h3>
+                            <div class="space-y-1 text-sm md:text-base">
+                                <p><span class="font-bold text-slate-900 dark:text-[#f0f6fc]"
+                                        data-t="furry_label_name">名稱:</span> <span data-t="furry_val_name">焦月 (Jiao
+                                        Yue)</span></p>
+                                <p><span class="font-bold text-slate-900 dark:text-[#f0f6fc]"
+                                        data-t="furry_label_species">物種:</span> <span data-t="furry_val_species">柴犬
+                                        (Shiba Inu)</span></p>
+                                <p><span class="font-bold text-slate-900 dark:text-[#f0f6fc]"
+                                        data-t="furry_label_features">特徵:</span> <span
+                                        data-t="furry_val_features">擁有溫暖的灰色毛皮和尾巴。</span></p>
+                                <p><span class="font-bold text-slate-900 dark:text-[#f0f6fc]"
+                                        data-t="furry_label_personality">個性:</span> <span
+                                        data-t="furry_val_personality">充滿好奇心、喜歡幫助朋友，但十分害羞。</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 生日倒計時卡片 -->
+                    <div
+                        class="wuzuan-card countdown-container p-6 bg-gradient-to-r from-accentBlue/10 to-indigo-500/10 border-accentBlue/20 rounded-xl reveal reveal-delay-3 cursor-help">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-cake-candles text-accentBlue"></i>
+                            <span data-t="birthday_title">生日倒計時</span>
+                        </h3>
+                        <div class="flex justify-around items-center text-center">
+                            <div>
+                                <span id="days" class="text-3xl font-black text-accentBlue">00</span>
+                                <p class="text-[10px] uppercase tracking-widest opacity-60" data-t="time_days">天</p>
+                            </div>
+                            <div class="text-2xl font-light opacity-30">:</div>
+                            <div>
+                                <span id="hours" class="text-3xl font-black text-accentBlue">00</span>
+                                <p class="text-[10px] uppercase tracking-widest opacity-60" data-t="time_hours">時</p>
+                            </div>
+                            <div class="text-2xl font-light opacity-30">:</div>
+                            <div>
+                                <span id="minutes" class="text-3xl font-black text-accentBlue">00</span>
+                                <p class="text-[10px] uppercase tracking-widest opacity-60" data-t="time_minutes">分</p>
+                            </div>
+                            <div class="text-2xl font-light opacity-30">:</div>
+                            <div>
+                                <span id="seconds" class="text-3xl font-black text-accentBlue text-indigo-400">00</span>
+                                <p class="text-[10px] uppercase tracking-widest opacity-60" data-t="time_seconds">秒</p>
+                            </div>
+                        </div>
+
+                        <!-- 懸停顯示具體日期 -->
+                        <div class="birthday-date-overlay">
+                            <div class="text-center">
+                                <p class="text-sm opacity-60 mb-1" data-t="birthday_label">生日日期</p>
+                                <p class="text-2xl font-black text-accentBlue tracking-widest">03 / 25</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 精選作品 -->
+        <section id="works" class="mb-24 reveal">
+            <div class="flex items-center gap-4 mb-10">
+                <h2 class="text-3xl font-bold section-title text-slate-900 dark:text-[#f0f6fc] relative"
+                    data-t="title_works">精選作品</h2>
+                <span
+                    class="px-2 py-0.5 bg-accentBlue/10 text-accentBlue text-xs rounded border border-accentBlue/30 uppercase tracking-widest font-bold">Works</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 作品 1: YouTube 影片 -->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-1 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409]">
+                        <img id="work-image-1" src="images/youtube_work.jpg" alt="遊戲實況精華封面圖"
+                            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/400x250/33333A/FFFFFF?text=YouTube+Placeholder'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="work1_title">
+                            YouTube 影片</h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4" data-t="work1_desc">
+                            收錄了我在 YouTube 所有影片作品
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a href="https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA" target="_blank"
+                                class="text-accentBlue hover:text-blue-400 font-medium text-sm flex items-center gap-1">
+                                <i class="fab fa-youtube"></i> <span data-t="work1_btn">前往 YouTube 頻道</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品 2: 數位作品 -->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-2 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409]">
+                        <img id="work-image-2" src="images/digital_art.jpg" alt="數位藝術作品圖"
+                            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/400x250/B1884B/141418?text=Digital+Art+Furry'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="work2_title">數位作品
+                        </h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4" data-t="work2_desc">
+                            展示我近期的電繪作品。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a href="https://www.penup.com/profile/1737639369583161" target="_blank"
+                                class="text-accentBlue hover:text-blue-400 font-medium text-sm flex items-center gap-1">
+                                <i class="fas fa-palette"></i> <span data-t="work2_btn">前往 PENUP 欣賞</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品 3: 其他作品 -->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-3 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409]">
+                        <img id="work-image-3" src="images/other_works.jpg" alt="更多數位作品"
+                            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/400x250/2d3748/FFFFFF?text=More+Works+Placeholder'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="work3_title">其他作品
+                        </h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4" data-t="work3_desc">
+                            展示其他電繪作品
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a href="https://www.penup.com/profile/1737639369583161" target="_blank"
+                                class="text-accentBlue hover:text-blue-400 font-medium text-sm flex items-center gap-1">
+                                <i class="fas fa-palette"></i> <span data-t="work2_btn">前往 PENUP 欣賞</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 查看所有作品按鈕 -->
+            <div class="text-center mt-12 reveal">
+                <button onclick="toggleWorksModal(true)"
+                    class="px-8 py-3 bg-accentBlue hover:bg-blue-400 text-white font-bold rounded-full shadow-lg transition-transform transform hover:scale-105 flex items-center gap-2 mx-auto">
+                    <i class="fas fa-th"></i>
+                    <span data-t="btn_view_all">查看所有作品</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 我的社群頻道 -->
+        <section id="social" class="mb-24 reveal">
+            <div class="flex items-center gap-4 mb-10">
+                <h2 class="text-3xl font-bold section-title text-slate-900 dark:text-[#f0f6fc] relative"
+                    data-t="title_social">社群頻道</h2>
+                <span
+                    class="px-2 py-0.5 bg-[#bc8cff]/10 text-[#bc8cff] text-xs rounded border border-[#bc8cff]/30 uppercase tracking-widest font-bold">Socials</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA" target="_blank"
+                    class="social-btn flex items-center bg-red-600 hover:bg-red-700 text-white rounded-lg p-3 shadow-md reveal reveal-delay-1">
+                    <i class="fab fa-youtube w-8 text-center mr-2 text-xl"></i> YouTube 焦月愛網路
+                </a>
+                <a href="https://www.twitch.tv/louis1000325" target="_blank"
+                    class="social-btn flex items-center bg-purple-600 hover:bg-purple-700 text-white rounded-lg p-3 shadow-md reveal reveal-delay-2">
+                    <i class="fab fa-twitch w-8 text-center mr-2 text-xl"></i> Twitch 焦月
+                </a>
+                <a href="https://x.com/xingxing1443469" target="_blank"
+                    class="social-btn flex items-center bg-slate-800 hover:bg-black text-white rounded-lg p-3 shadow-md reveal reveal-delay-3">
+                    <i class="fab fa-x-twitter w-8 text-center mr-2 text-xl"></i> X Jiao Yue
+                </a>
+                <a href="https://www.tiktok.com/@louis1233344" target="_blank"
+                    class="social-btn flex items-center bg-black hover:bg-slate-900 text-white rounded-lg p-3 shadow-md reveal reveal-delay-1">
+                    <i class="fab fa-tiktok w-8 text-center mr-2 text-green-400 text-xl"></i> TikTok louis1233344
+                </a>
+                <a href="https://space.bilibili.com/1352630702" target="_blank"
+                    class="social-btn flex items-center bg-[#00aeec] hover:bg-[#0092c7] text-white rounded-lg p-3 shadow-md reveal reveal-delay-2">
+                    <i class="fab fa-bilibili w-8 text-center mr-2 text-xl"></i> Bilibili 焦月愛網路
+                </a>
+                <a href="https://www.roblox.com/users/3613032430/profile" target="_blank"
+                    class="social-btn flex items-center bg-[#00a2ff] hover:bg-[#0086d4] text-white rounded-lg p-3 shadow-md reveal reveal-delay-3">
+                    <i class="fab fa-roblox w-8 text-center mr-2 text-xl"></i> Roblox YT_JiaoYue
+                </a>
+                <a href="https://www.penup.com/profile/1737639369583161" target="_blank"
+                    class="social-btn flex items-center bg-pink-400 hover:bg-pink-500 text-white rounded-lg p-3 shadow-md reveal reveal-delay-1">
+                    <i class="fas fa-palette w-8 text-center mr-2 text-xl"></i> PENUP furry_Jiao_Yue
+                </a>
+                <a href="https://www.facebook.com/share/16FViTKZHL/" target="_blank"
+                    class="social-btn flex items-center bg-[#1877F2] hover:bg-[#1664d9] text-white rounded-lg p-3 shadow-md reveal reveal-delay-2">
+                    <i class="fab fa-facebook w-8 text-center mr-2 text-xl"></i> Facebook 焦月
+                </a>
+                <a href="https://www.instagram.com/louis1234433" target="_blank"
+                    class="social-btn flex items-center bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white rounded-lg p-3 shadow-md reveal reveal-delay-3">
+                    <i class="fab fa-instagram w-8 text-center mr-2 text-xl"></i> Instagram 焦月
+                </a>
+            </div>
+        </section>
+
+        <!-- 廣告廠商 -->
+        <section id="advertise" class="mb-24 reveal">
+            <div class="flex items-center gap-4 mb-10">
+                <h2 class="text-3xl font-bold section-title text-slate-900 dark:text-[#f0f6fc] relative"
+                    data-t="title_advertise">廣告合作</h2>
+                <span
+                    class="px-2 py-0.5 bg-green-500/10 text-green-500 text-xs rounded border border-green-500/30 uppercase tracking-widest font-bold">Advertise</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 廣告商 1 -->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-1 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409] flex items-center justify-center">
+                        <img id="advertise-image-1" src="images/advertiser1_logo.jpg" alt="廣告商 1 Logo"
+                            class="w-45 h-45 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/150x150/33333A/FFFFFF?text=Advertiser+1'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="advertiser1_name">
+                            焦月line貼圖</h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4"
+                            data-t="advertiser1_desc">
+                            我的第一款LINE貼圖，敬請期待！
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span
+                                class="text-slate-400 dark:text-slate-500 font-medium text-sm flex items-center gap-1 cursor-not-allowed">
+                                <i class="fas fa-hourglass-start"></i> <span data-t="advertiser1_btn">暫時尚未開賣</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 廣告商 2 -->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-2 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409] flex items-center justify-center">
+                        <img id="advertise-image-2" src="images/advertiser2_logo.jpg" alt="廣告商 2 Logo"
+                            class="w-40 h-40 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/150x150/33333A/FFFFFF?text=Advertiser+2'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="advertiser2_name">
+                            鑽石託管</h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4"
+                            data-t="advertiser2_desc">
+                            minecraft伺服器託管首選，使用優惠碼"鑽鑽"享有專屬折扣！
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a href="https://diamondhost.tw/" target="_blank"
+                                class="text-accentBlue hover:text-blue-400 font-medium text-sm flex items-center gap-1">
+                                <i class="fas fa-external-link-alt"></i> <span data-t="advertiser2_btn">前往官方網站</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 廣告商3-->
+                <div
+                    class="wuzuan-card bg-white dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl overflow-hidden group reveal reveal-delay-3 shadow-2xl transition duration-300 transform hover:scale-[1.02]">
+                    <div class="h-48 overflow-hidden bg-slate-200 dark:bg-[#010409] flex items-center justify-center">
+                        <img id="advertise-image-3" src="images/advertiser3_logo.jpg" alt="廣告商 3 Logo"
+                            class="w-45 h-45 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            onerror="this.src='https://placehold.co/150x150/33333A/FFFFFF?text=Advertiser+3'">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-[#f0f6fc] mb-2" data-t="advertiser3_name">
+                            超大咖託管</h3>
+                        <p class="text-sm text-slate-500 dark:text-[#8b949e] line-clamp-2 mb-4"
+                            data-t="advertiser3_desc">
+                            Minecraft 基岩版伺服器託管首選。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a href="https://coffeehost.net/" target="_blank"
+                                class="text-accentBlue hover:text-blue-400 font-medium text-sm flex items-center gap-1">
+                                <i class="fas fa-external-link-alt"></i> <span data-t="advertiser3_btn">前往官方網站</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 (聯絡區塊) -->
+    <footer id="contact"
+        class="bg-white dark:bg-darkCard border-t border-lightBorder dark:border-darkBorder py-12 px-6 text-center md:text-left reveal">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="text-2xl font-bold text-slate-900 dark:text-[#f0f6fc] mb-2 tracking-tighter">
+                    JIAO<span class="text-accentBlue">YUE</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-[#8b949e] mb-6" data-t="footer_slogan">© 2025 焦月.
+                    讓創意照亮網路的每一個角落.</p>
+
+                <!-- 聯絡電子郵件 -->
+                <div class="mt-4">
+                    <p class="text-xs text-slate-400 uppercase tracking-widest font-bold mb-2" data-t="nav_contact">
+                        聯絡
+                    </p>
+                    <a href="mailto:yuminloiuis0325@gmail.com"
+                        class="text-xl font-bold text-accentBlue hover:text-blue-400 transition-colors inline-flex items-center">
+                        <i class="fas fa-envelope mr-2"></i> yuminloiuis0325@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-center md:justify-end gap-6">
+                <a href="https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA" target="_blank"
+                    class="text-2xl text-slate-400 hover:text-red-500 transition-colors"><i
+                        class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/louis1234433" target="_blank"
+                    class="text-2xl text-slate-400 hover:text-pink-500 transition-colors"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://space.bilibili.com/1352630702" target="_blank"
+                    class="text-2xl text-slate-400 hover:text-sky-400 transition-colors"><i
+                        class="fab fa-bilibili"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang-zh.js"></script>
+    <script src="js/lang-en.js"></script>
+    <script src="js/lang-ja.js"></script>
+    <script src="js/lang-zh-Hans.js"></script>
+    <!-- 請仔細檢查這個檔案的路徑和名稱是否完全正確！ -->
+    <script src="js/works-modal.js"></script>
+    <!-- 語言主腳本，必須在內聯腳本之前載入 -->
+    <script src="js/lang.js"></script>
+    <script>
+        // 將主要邏輯放在這裡，確保所有外部腳本都已載入
+        // 平滑滾動至頂部
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 滾動追蹤 (ScrollSpy) 功能 ---
+        const sections = document.querySelectorAll('section, footer#contact');
+        const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+
+        function updateActiveNav() {
+            let current = "";
+            const offset = 100; // 滾動偏移量補償
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - offset && window.pageYOffset < sectionTop + sectionHeight - offset) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // 修正：當滾動到頁面最底部時，強制選中最後一個選項 (聯絡)
+            if ((window.innerHeight + window.pageYOffset) >= document.documentElement.scrollHeight - 20) {
+                current = 'contact';
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active-nav');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active-nav');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+
+        // --- 滾動揭露效果 (Intersection Observer) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 側邊選單控制
+        function toggleMobileMenu(isOpen) {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            if (isOpen) {
+                menu.classList.add('active');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.classList.remove('active');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 深淺色模式切換
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+            // 添加動畫 class
+            themeIcon.classList.add('theme-anim');
+            themeIconMobile.classList.add('theme-anim');
+
+            // 等待動畫執行到一半時切換圖示與主題
+            setTimeout(() => {
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                    themeIconMobile.classList.replace('fa-moon', 'fa-sun');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                    themeIconMobile.classList.replace('fa-sun', 'fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }, 250);
+
+            // 動畫結束後移除 class
+            setTimeout(() => {
+                themeIcon.classList.remove('theme-anim');
+                themeIconMobile.classList.remove('theme-anim');
+            }, 500);
+        }
+
+        // --- 作品集 Modal 控制 ---
+        function toggleWorksModal(show) {
+            const modal = document.getElementById('works-modal');
+            const backdrop = document.getElementById('works-modal-backdrop');
+            const panel = document.getElementById('works-modal-panel');
+
+            if (!modal || !backdrop || !panel) {
+                alert('錯誤：作品集視窗元件遺失！\n請確認 js/works-modal.js 檔案是否正確載入。');
+                console.error("Modal element(s) not found! Check if js/works-modal.js is loaded correctly.");
+                return;
+            }
+
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // 鎖定背景滾動
+
+                // 動畫進場
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('opacity-0', 'scale-95');
+                    panel.classList.add('opacity-100', 'scale-100');
+                }, 10);
+            } else {
+                // 動畫退場
+                backdrop.classList.add('opacity-0');
+                panel.classList.remove('opacity-100', 'scale-100');
+                panel.classList.add('opacity-0', 'scale-95');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                    // 每次關閉時重置回作品網格視圖
+                    if (typeof showWorksGrid === 'function') {
+                        showWorksGrid();
+                    }
+                }, 300); // 等待 transition 結束
+            }
+        }
+
+        // --- 生日倒計時邏輯 ---
+        function updateBirthdayCountdown() {
+            const birthdayMonth = 3; // 3月
+            const birthdayDay = 25;  // 25日
+
+            const now = new Date();
+            let year = now.getFullYear();
+            let nextBirthday = new Date(year, birthdayMonth - 1, birthdayDay);
+
+            // 如果今年生日已過，計算明年的生日
+            if (now > nextBirthday) {
+                nextBirthday = new Date(year + 1, birthdayMonth - 1, birthdayDay);
+            }
+
+            const diff = nextBirthday - now;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = d.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+        }
+
+        // 每秒更新一次
+        setInterval(updateBirthdayCountdown, 1000);
+        updateBirthdayCountdown();
+
+        // 初始化主題與語言
+        (function init() {
+            // 主題
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            if (savedTheme === 'light') {
+                html.classList.remove('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                html.classList.add('dark');
+            }
+
+            // 初始化選單高亮
+            updateActiveNav();
+        })();
+
+        // 導覽列捲動效果
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+
+        // --- 語言切換動畫封裝 ---
+        // 攔截原始 changeLang 函數以添加過渡動畫
+        (function wrapLanguageSwitcher() {
+            // 等待原始 changeLang 函數載入
+            if (typeof window.changeLang !== 'function') {
+                console.error("Original changeLang function not found. Animation wrapper will not be applied.");
+                return;
+            }
+
+            const originalChangeLang = window.changeLang;
+
+            // --- 1. 決定初始語言 ---
+            // 優先從 localStorage 讀取用戶先前的選擇
+            let initialLang = localStorage.getItem('lang');
+            if (!initialLang) {
+                // 若無，則偵測瀏覽器語言
+                const browserLang = navigator.language || navigator.userLanguage;
+                if (browserLang.startsWith('zh')) {
+                    if (browserLang.toLowerCase() === 'zh-cn' || browserLang.toLowerCase() === 'zh-sg') {
+                        initialLang = 'zh-Hans'; // 簡體中文
+                    } else {
+                        initialLang = 'zh'; // 繁體中文 (zh-TW, zh-HK, etc.)
+                    }
+                } else if (browserLang.startsWith('en')) {
+                    initialLang = 'en'; // 英文
+                } else if (browserLang.startsWith('ja')) {
+                    initialLang = 'ja'; // 日文
+                } else {
+                    initialLang = 'zh'; // 預設回退到繁體中文
+                }
+            }
+            // --- 2. 設置初始語言 (無動畫) ---
+            originalChangeLang(initialLang);
+            let currentLang = initialLang;
+
+            // 動畫執行函數
+            const runAnimation = (targetLang, direction, callback) => {
+                const elements = document.querySelectorAll('[data-t]');
+                const outClass = direction === 'down' ? 'lang-anim-out-down' : 'lang-anim-out-up';
+                const inClass = direction === 'down' ? 'lang-anim-in-down' : 'lang-anim-in-up';
+
+                elements.forEach(el => el.classList.add(outClass));
+
+                setTimeout(() => {
+                    originalChangeLang(targetLang);
+                    elements.forEach(el => {
+                        el.classList.remove(outClass);
+                        el.classList.add(inClass);
+                    });
+                    setTimeout(() => {
+                        elements.forEach(el => el.classList.remove(inClass));
+                        if (callback) callback();
+                    }, 300);
+                }, 200);
+            };
+
+            window.changeLang = function (lang) {
+                // 如果語言未變，或為初次載入，直接更新文字不加動畫
+                if (lang === currentLang) {
+                    originalChangeLang(lang);
+                    return;
+                }
+
+                const fromLang = currentLang;
+                const toLang = lang;
+
+                // 判斷切換邏輯
+                if (fromLang === 'zh' && toLang === 'zh-Hans') { // 繁體中文 > 簡體中文的動畫
+                    runAnimation('zh-Hans', 'down');
+                } else if (fromLang === 'zh' && toLang === 'en') { // 繁體中文 > 英文的動畫
+                    runAnimation('zh-Hans', 'down', () => {
+                        runAnimation('en', 'down');
+                    });
+                } else if (fromLang === 'zh' && toLang === 'ja') { // 繁體中文 > 日文的動畫
+                    runAnimation('zh-Hans', 'down', () => {
+                        runAnimation('en', 'down', () => {
+                            runAnimation('ja', 'down');
+                        });
+                    });
+                } else if (fromLang === 'zh-Hans' && toLang === 'zh') { // 簡體中文 -> 繁體中文: 上翻
+                    runAnimation('zh', 'up');
+                } else if (fromLang === 'zh-Hans' && toLang === 'en') { // 簡體中文 -> 英文: 下翻
+                    runAnimation('en', 'down');
+                } else if (fromLang === 'zh-Hans' && toLang === 'ja') { // 簡體中文 -> 日文: 下翻到英文 -> 再下翻到日文
+                    runAnimation('en', 'down', () => {
+                        runAnimation('ja', 'down');
+                    });
+                } else if (fromLang === 'en' && toLang === 'zh') { // 英文 -> 繁體中文: 上翻到簡體 -> 再上翻到繁體
+                    runAnimation('zh-Hans', 'up', () => {
+                        runAnimation('zh', 'up');
+                    });
+                } else if (fromLang === 'en' && toLang === 'zh-Hans') { // 英文 -> 簡體中文: 上翻
+                    runAnimation('zh-Hans', 'up');
+                } else if (fromLang === 'en' && toLang === 'ja') { // 英文 -> 日文：下翻
+                    runAnimation('ja', 'down');
+                } else if (fromLang === 'ja' && toLang === 'en') { // 日文>英文的動畫 上翻
+                    runAnimation('en', 'up');
+                } else if (fromLang === 'ja' && toLang === 'zh-Hans') { // 日文>簡體中文的動畫 上翻到英文再上翻到簡體
+                    runAnimation('en', 'up', () => {
+                        runAnimation('zh-Hans', 'up');
+                    });
+                } else if (fromLang === 'ja' && toLang === 'zh') { // 日文>繁體中文的動畫 上翻到英文再上翻到簡體再上翻到繁體
+                    runAnimation('en', 'up', () => {
+                        runAnimation('zh-Hans', 'up', () => {
+                            runAnimation('zh', 'up');
+                        });
+                    });
+                } else {
+                    // 其他未定義的轉換，預設使用下翻動畫
+                    runAnimation(toLang, 'down');
+                }
+
+                currentLang = lang; // 更新當前語言
+            };
+        })();
+    </script>
+</body>
+
+
+</html>
