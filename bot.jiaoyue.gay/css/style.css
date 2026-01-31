@@ -1,0 +1,191 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* 導覽列樣式 */
+.navbar {
+    background-color: white;
+    padding: 0 40px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #4f5660;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #5865F2;
+}
+
+/* 網格容器設定 */
+.robot-grid {
+    display: grid;
+    /* 自動填滿，每格最小 240px，最大 1fr */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* 卡片樣式 (直的長方形) */
+.robot-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 380px;
+    /* 設定高度使其成為直的長方形 */
+    transition: transform 0.2s ease;
+}
+
+.robot-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 頭像樣式 */
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ddd;
+    margin-bottom: 16px;
+    border: 4px solid #eef0f3;
+}
+
+/* 名字樣式 */
+.name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+/* 用來將按鈕推到底部的空間 */
+.spacer {
+    flex-grow: 1;
+}
+
+/* 按鈕群組 */
+.actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 通用按鈕樣式 */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* 邀請按鈕 (藍紫色) */
+.btn-invite {
+    background-color: #5865F2;
+    color: white;
+}
+
+.btn-invite:hover {
+    background-color: #4752c4;
+}
+
+/* 條款按鈕 (灰色) */
+.btn-tos {
+    background-color: #e3e5e8;
+    color: #4f5660;
+}
+
+.btn-tos:hover {
+    background-color: #d4d7dc;
+}
+
+/* 彈窗樣式 */
+.modal {
+    display: none;
+    /* 預設隱藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* 半透明黑色背景 */
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    /* 背景模糊效果 */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+    /* 內容太長時可捲動 */
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+#modalBody {
+    line-height: 1.6;
+    color: #4f5660;
+    white-space: pre-wrap;
+    /* 保留文字換行 */
+}
