@@ -1,0 +1,143 @@
+/* 全域設定 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #121212;
+    /* 深色背景 */
+    color: #e0e0e0;
+    /* 淺色文字 */
+}
+
+a {
+    color: #64b5f6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #9be7ff;
+}
+
+/* 導覽列 */
+header {
+    background-color: #1e1e1e;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+nav h1 a {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #bbb;
+    font-weight: 500;
+}
+
+nav ul li a:hover {
+    color: #fff;
+}
+
+/* 主要內容區塊 */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+section {
+    margin-bottom: 4rem;
+    padding-top: 80px;
+    /* 配合 sticky header 的偏移量 */
+    margin-top: -80px;
+}
+
+h2 {
+    border-bottom: 2px solid #64b5f6;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* 首頁視覺區 (Hero) */
+#hero {
+    text-align: center;
+    padding: 4rem 20px;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+#hero h2 {
+    border: none;
+    font-size: 2.5rem;
+}
+
+#hero img {
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* 作品集網格 */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.02);
+}
+
+/* 服務項目 */
+#services article {
+    background-color: #1e1e1e;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #64b5f6;
+}
+
+/* 頁尾 */
+footer {
+    background-color: #1e1e1e;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid #333;
+}

@@ -1,0 +1,10 @@
+/* Theme: 經典藍 (Default) */
+:root {
+    --dark-bg: 13 17 23;
+    --dark-card: 22 27 34;
+    --dark-border: 48 54 61;
+    --light-bg: 248 250 252;
+    --light-card: 255 255 255;
+    --light-border: 226 232 240;
+    --accent-blue: 88 166 255;
+}

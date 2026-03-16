@@ -1,0 +1,55 @@
+(document.addEventListener('DOMContentLoaded', function () {
+    // 嘗試從 siteConfig 讀取設定，若無則使用預設值
+    const config = window.siteConfig && window.siteConfig.seo ? window.siteConfig.seo : {
+        siteName: "焦月 Jiao Yue 官方網站",
+        siteUrl: "https://jiaoyue.gay/",
+        siteDescription: "焦月 (Jiao Yue) 的個人作品集與官方網站",
+        personName: "焦月 Jiao Yue",
+        personImage: "https://jiaoyue.gay/images/jiao_yue_profile.jpg",
+        personJobTitle: "Digital Artist",
+        personDescription: "一位熱愛創作的柴犬獸人，展示電繪作品、YouTube 影片以及更多創意內容。",
+        socialLinks: []
+    };
+
+    const seoData = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "name": config.siteName,
+                "url": config.siteUrl,
+                "description": config.siteDescription
+            },
+            {
+                "@type": "Person",
+                "name": config.personName,
+                "url": config.siteUrl,
+                "image": config.personImage,
+                "sameAs": config.socialLinks,
+                "jobTitle": config.personJobTitle,
+                "description": config.personDescription
+            }
+        ]
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(seoData);
+    document.head.appendChild(script);
+
+    // 動態讀取 keywords.txt 並更新 Meta Keywords
+    fetch('keywords.txt?v=' + Date.now()) // 加入時間戳記避免快取
+        .then(response => response.text())
+        .then(text => {
+            // 去除換行符號與前後空白
+            const keywords = text.replace(/[\r\n]+/g, '').trim();
+            let meta = document.querySelector('meta[name="keywords"]');
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.name = 'keywords';
+                document.head.appendChild(meta);
+            }
+            meta.content = keywords;
+        })
+        .catch(err => console.error('無法讀取 keywords.txt:', err));
+}));

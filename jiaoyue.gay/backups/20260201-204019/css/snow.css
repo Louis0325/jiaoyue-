@@ -1,0 +1,179 @@
+/* 雪花效果 CSS */
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.snowflake {
+    position: absolute;
+    top: -5vh;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-size: 0.5rem;
+    /* 調整雪花基本大小 */
+    opacity: 0;
+    user-select: none;
+    animation: snowfall linear infinite;
+}
+
+@keyframes snowfall2 {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(105vh) translateX(-10vw) rotate(-270deg);
+        opacity: 1;
+    }
+}
+
+.snowflake:nth-child(1) {
+    left: 5%;
+    animation-duration: 14s;
+    animation-delay: 0s;
+    font-size: 0.8rem;
+}
+
+.snowflake:nth-child(2) {
+    left: 10%;
+    animation-duration: 10s;
+    animation-delay: 1s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(3) {
+    left: 15%;
+    animation-duration: 12s;
+    animation-delay: 3s;
+    font-size: 0.9rem;
+}
+
+.snowflake:nth-child(4) {
+    left: 20%;
+    animation-duration: 8s;
+    animation-delay: 5s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(5) {
+    left: 25%;
+    animation-duration: 15s;
+    animation-delay: 2s;
+    font-size: 0.6rem;
+}
+
+.snowflake:nth-child(6) {
+    left: 30%;
+    animation-duration: 11s;
+    animation-delay: 7s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(7) {
+    left: 35%;
+    animation-duration: 9s;
+    animation-delay: 4s;
+    font-size: 1rem;
+}
+
+.snowflake:nth-child(8) {
+    left: 40%;
+    animation-duration: 13s;
+    animation-delay: 1s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(9) {
+    left: 45%;
+    animation-duration: 10s;
+    animation-delay: 6s;
+    font-size: 0.7rem;
+}
+
+.snowflake:nth-child(10) {
+    left: 50%;
+    animation-duration: 14s;
+    animation-delay: 8s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(11) {
+    left: 55%;
+    animation-duration: 8s;
+    animation-delay: 0s;
+    font-size: 0.8rem;
+}
+
+.snowflake:nth-child(12) {
+    left: 60%;
+    animation-duration: 12s;
+    animation-delay: 2s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(13) {
+    left: 65%;
+    animation-duration: 11s;
+    animation-delay: 5s;
+    font-size: 1.1rem;
+}
+
+.snowflake:nth-child(14) {
+    left: 70%;
+    animation-duration: 15s;
+    animation-delay: 9s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(15) {
+    left: 75%;
+    animation-duration: 9s;
+    animation-delay: 1s;
+    font-size: 0.5rem;
+}
+
+.snowflake:nth-child(16) {
+    left: 80%;
+    animation-duration: 13s;
+    animation-delay: 3s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(17) {
+    left: 85%;
+    animation-duration: 10s;
+    animation-delay: 7s;
+    font-size: 0.8rem;
+}
+
+.snowflake:nth-child(18) {
+    left: 90%;
+    animation-duration: 12s;
+    animation-delay: 4s;
+    animation-name: snowfall2;
+}
+
+.snowflake:nth-child(19) {
+    left: 95%;
+    animation-duration: 14s;
+    animation-delay: 6s;
+    font-size: 0.7rem;
+}
+
+.snowflake:nth-child(20) {
+    left: 2%;
+    animation-duration: 9s;
+    animation-delay: 8s;
+    animation-name: snowfall2;
+}

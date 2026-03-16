@@ -1,0 +1,199 @@
+window.siteConfig = {
+    theme: {
+        active: 'default', // 預設主題 key，請確保這裡的值與 presets 中的某個 key 匹配
+
+        presets: {
+            default: {
+                name: "經典藍 (Default)",
+                displayName: "經典藍",
+                cssFile: "css/theme-default.css",
+                colors: {
+                    accentBlue: '#58a6ff',
+                    darkBg: '#0d1117',
+                    darkCard: '#161b22',
+                    darkBorder: '#30363d',
+                    lightBg: '#f8fafc',
+                    lightCard: '#ffffff',
+                    lightBorder: '#e2e8f0'
+                }
+            },
+            purple: {
+                name: "薰衣草紫 (Lavender)",
+                displayName: "薰衣草紫",
+                cssFile: "css/theme-purple.css",
+                colors: {
+                    accentBlue: '#a371f7',
+                    darkBg: '#13111c',
+                    darkCard: '#1f1b2e',
+                    darkBorder: '#362e4a',
+                    lightBg: '#faf8ff',
+                    lightCard: '#ffffff',
+                    lightBorder: '#e9e0f5'
+                }
+            },
+            green: {
+                name: "森林綠 (Forest)",
+                displayName: "森林綠",
+                cssFile: "css/theme-green.css",
+                colors: {
+                    accentBlue: '#2ea043',
+                    darkBg: '#0d1117',
+                    darkCard: '#161b22',
+                    darkBorder: '#30363d',
+                    lightBg: '#f6f8fa',
+                    lightCard: '#ffffff',
+                    lightBorder: '#d0d7de'
+                }
+            },
+            tongtong: {
+                name: "同同 (Tong Tong)",
+                displayName: "同同",
+                cssFile: "css/theme-tongtong.css",
+                colors: {
+                    accentBlue: '#ff8a65',
+                    darkBg: '#0b0a0f',
+                    darkCard: '#20161a',
+                    darkBorder: '#3b2f33',
+                    lightBg: '#fff8f5',
+                    lightCard: '#ffffff',
+                    lightBorder: '#f5e6e0'
+                }
+            }
+        }
+    },
+
+    profile: {
+        name: "焦月",
+        hero: {
+            greeting: "你好，我是",
+            subtitle: "數位創作者 / 柴犬獸人 / 生活藝術探索者",
+            intro_content: "我是焦月，一位獸控，喜歡咬別人咬不到就咬自己😅"
+        },
+        furry: {
+            name: "焦月 (Jiao Yue)",
+            species: "柴犬 (Shiba Inu)",
+            features: "擁有溫暖的灰色毛皮和尾巴。",
+            personality: "充滿好奇心、喜歡幫助朋友，但十分害羞。"
+        },
+        birthday: {
+            dateStr: "03 / 25"
+        }
+    },
+
+    seo: {
+        siteName: "🐾 焦月 🐾 官方網站",
+        siteUrl: "https://jiaoyue.gay/",
+        siteDescription: "🐾 焦月 🐾 | 台灣furry創作者，焦月自我介紹網站。",
+        personName: "焦月 Jiao Yue",
+        personImage: "https://jiaoyue.gay/images/jiao_yue_profile.jpg",
+        personJobTitle: "Digital Artist",
+        personDescription: "一位熱愛創作的柴犬獸人，展示電繪作品、YouTube 影片以及更多創意內容。",
+        socialLinks: [
+            "https://www.youtube.com/channel/UCfn_S3F7gIG9-komcsLMPLA",
+            "https://x.com/xingxing1443469",
+            "https://www.instagram.com/louis1234433",
+            "https://space.bilibili.com/1352630702"
+        ]
+    }
+};
+
+(function () {
+    function hexToRgbNumbers(hex) {
+        if (!hex) return null;
+        hex = hex.toString().trim();
+        if (hex.indexOf('#') === 0) {
+            hex = hex.slice(1);
+        }
+        if (/^\d+\s+\d+\s+\d+$/.test(hex)) return hex;
+        if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+        if (hex.length !== 6) return null;
+        const n = parseInt(hex, 16);
+        const r = (n >> 16) & 255;
+        const g = (n >> 8) & 255;
+        const b = n & 255;
+        return `${r} ${g} ${b}`;
+    }
+
+    function getActiveThemeKey() {
+        const cfg = window.siteConfig?.theme;
+        if (!cfg || !cfg.presets) return 'default';
+        const key = (cfg.active || '').toString().trim();
+        if (key && cfg.presets[key]) return key;
+        return 'default';
+    }
+
+    function getActivePreset() {
+        const k = getActiveThemeKey();
+        return window.siteConfig.theme.presets[k];
+    }
+
+    window.siteConfig.getActiveThemeKey = getActiveThemeKey;
+    window.siteConfig.getActivePreset = getActivePreset;
+    window.siteConfig.getThemeDisplayName = function (key) {
+        const presets = window.siteConfig?.theme?.presets || {};
+        const k = key || getActiveThemeKey();
+        const p = presets[k] || presets['default'] || {};
+        return p.displayName || p.name || (k && k[0].toUpperCase() + k.slice(1)) || 'Default';
+    };
+
+    function applyTheme() {
+        const preset = getActivePreset();
+        if (!preset) return;
+
+        // 1. Apply colors via CSS variables
+        if (preset.colors) {
+            const c = preset.colors;
+            const root = document.documentElement;
+            const setVar = (varName, hex) => {
+                const rgb = hexToRgbNumbers(hex);
+                if (!rgb) return;
+                root.style.setProperty(varName, rgb);
+            };
+
+            setVar('--dark-bg', c.darkBg);
+            setVar('--dark-card', c.darkCard);
+            setVar('--dark-border', c.darkBorder);
+            setVar('--light-bg', c.lightBg);
+            setVar('--light-card', c.lightCard);
+            setVar('--light-border', c.lightBorder);
+            setVar('--accent-blue', c.accentBlue);
+        }
+
+        // update meta theme-color for mobile UI
+        try {
+            let metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (!metaTheme) {
+                metaTheme = document.createElement('meta');
+                metaTheme.setAttribute('name', 'theme-color');
+                document.head.appendChild(metaTheme);
+            }
+            if (preset.colors && preset.colors.accentBlue) metaTheme.setAttribute('content', preset.colors.accentBlue);
+        } catch (e) {
+            // ignore
+        }
+
+        // 2. Dynamically load the theme's CSS file
+        if (preset.cssFile) {
+            let themeLink = document.getElementById('theme-css-link');
+            if (!themeLink) {
+                themeLink = document.createElement('link');
+                themeLink.id = 'theme-css-link';
+                themeLink.rel = 'stylesheet';
+                document.head.appendChild(themeLink);
+            }
+            themeLink.href = preset.cssFile;
+        }
+    }
+
+    window.siteConfig.setActiveTheme = function (key) {
+        if (!key || !window.siteConfig.theme.presets[key]) return;
+        window.siteConfig.theme.active = key;
+        applyTheme();
+    };
+
+    try {
+        applyTheme();
+    } catch (e) {
+        console.error('Error applying siteConfig theme:', e);
+    }
+})();

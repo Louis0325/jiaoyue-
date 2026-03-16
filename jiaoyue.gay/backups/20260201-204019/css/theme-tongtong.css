@@ -1,0 +1,161 @@
+/* 🌈 Pride Sunset Hybrid Theme: 同同 (Tong Tong) */
+/* 採用 RGB 變數格式，支援靈活的透明度控制 */
+
+:root {
+    /* 驕傲月核心漸層 */
+    --pride-gradient: linear-gradient(90deg, #ff0018, #ffa52c, #ffff41, #008018, #0000f9, #86007d);
+
+    /* 基礎色調 RGB 格式 (來自 Sunset 模板) */
+    --dark-bg: 11 10 15;
+    /* #0b0a0f */
+    --dark-card: 32 22 26;
+    /* #20161a */
+    --dark-border: 59 47 51;
+    /* #3b2f33 */
+
+    --light-bg: 255 248 245;
+    /* #fff8f5 */
+    --light-card: 255 255 255;
+    /* #ffffff */
+    --light-border: 245 230 224;
+    /* #f5e6e0 */
+
+    --accent-blue: 255 138 101;
+    /* #ff8a65 (Sunset Orange) */
+}
+
+/* 0. 背景設計：結合 Sunset 底色與流動彩虹極光 🏳️‍🌈 */
+body {
+    background-color: rgb(var(--light-bg)) !important;
+    background-image:
+        linear-gradient(125deg,
+            rgba(255, 0, 24, 0.02) 0%,
+            rgba(255, 165, 44, 0.02) 20%,
+            rgba(0, 128, 24, 0.02) 50%,
+            rgba(134, 0, 125, 0.02) 100%) !important;
+    background-size: 400% 400% !important;
+    animation: background-flow 20s ease infinite !important;
+    background-attachment: fixed !important;
+    transition: background-color 0.3s ease;
+}
+
+.dark body {
+    background-color: rgb(var(--dark-bg)) !important;
+    background-image:
+        linear-gradient(125deg,
+            rgba(255, 0, 24, 0.04) 0%,
+            rgba(255, 165, 44, 0.04) 20%,
+            rgba(0, 128, 24, 0.04) 50%,
+            rgba(134, 0, 125, 0.04) 100%) !important;
+}
+
+/* 1. 導覽列：彩虹底線裝飾 */
+header {
+    background: rgb(var(--light-bg) / 0.8) !important;
+    border-bottom: 2px solid transparent !important;
+    border-image: var(--pride-gradient) 1 !important;
+}
+
+.dark header {
+    background: rgb(var(--dark-bg) / 0.8) !important;
+}
+
+/* 2. 導覽連結：滑鼠移上去呈現彩虹漸層文字 ✨ */
+.nav-link:hover {
+    background: var(--pride-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: rainbow-move 3s linear infinite;
+    font-weight: 700;
+}
+
+/* 3. 卡片樣式：使用 RGB 變數調整透明度 */
+.wuzuan-card {
+    background-color: rgb(var(--light-card)) !important;
+    border-color: rgb(var(--light-border)) !important;
+}
+
+.dark .wuzuan-card {
+    background-color: rgb(var(--dark-card) / 0.7) !important;
+    border-color: rgb(var(--dark-border) / 0.5) !important;
+}
+
+/* 4. 按鈕：Sunset 橘色基底 + 彩虹懸停感 💡 */
+button.bg-accentBlue,
+.bg-accentBlue {
+    background-color: rgb(var(--accent-blue)) !important;
+    transition: all 0.3s ease !important;
+}
+
+button.bg-accentBlue:hover,
+.bg-accentBlue:hover {
+    box-shadow: 0 0 15px rgb(var(--accent-blue) / 0.5) !important;
+    filter: brightness(1.1);
+}
+
+/* 5. 標題裝飾：區塊標題下方的彩虹線 */
+.section-title::after {
+    background: var(--pride-gradient) !important;
+}
+
+/* 6. 手機版選單 */
+#mobile-menu {
+    background-color: rgb(var(--light-card)) !important;
+}
+
+.dark #mobile-menu {
+    background-color: rgb(var(--dark-card)) !important;
+}
+
+#mobile-menu a:hover {
+    background: var(--pride-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: rainbow-move 3s linear infinite;
+}
+
+/* 7. 頁尾底線 */
+footer {
+    background-color: rgb(var(--light-card)) !important;
+    border-top: 2px solid transparent !important;
+    border-image: var(--pride-gradient) 1 !important;
+}
+
+.dark footer {
+    background-color: rgb(var(--dark-card) / 0.5) !important;
+}
+
+/* --- 動畫定義 --- */
+
+@keyframes rainbow-move {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes background-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 捲軸美化 */
+::-webkit-scrollbar-thumb:hover {
+    background: #86007d;
+}

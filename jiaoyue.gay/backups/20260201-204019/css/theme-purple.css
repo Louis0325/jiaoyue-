@@ -1,0 +1,10 @@
+/* Theme: 薰衣草紫 (Lavender) */
+:root {
+    --dark-bg: 19 17 28;
+    --dark-card: 31 27 46;
+    --dark-border: 54 46 74;
+    --light-bg: 250 248 255;
+    --light-card: 255 255 255;
+    --light-border: 233 224 245;
+    --accent-blue: 163 113 247;
+}

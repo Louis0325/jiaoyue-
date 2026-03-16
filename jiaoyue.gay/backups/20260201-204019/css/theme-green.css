@@ -1,0 +1,10 @@
+/* Theme: 森林綠 (Forest) */
+:root {
+    --dark-bg: 13 17 23;
+    --dark-card: 22 27 34;
+    --dark-border: 48 54 61;
+    --light-bg: 246 248 250;
+    --light-card: 255 255 255;
+    --light-border: 208 215 222;
+    --accent-blue: 46 160 67;
+}

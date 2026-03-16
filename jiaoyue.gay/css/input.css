@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 預設主題顏色 (經典藍) - 對應 site-config.js 的 default preset */
+    --dark-bg: 13 17 23;       /* #0d1117 */
+    --dark-card: 22 27 34;     /* #161b22 */
+    --dark-border: 48 54 61;   /* #30363d */
+    --light-bg: 248 250 252;   /* #f8fafc */
+    --light-card: 255 255 255; /* #ffffff */
+    --light-border: 226 232 240; /* #e2e8f0 */
+    --accent-blue: 88 166 255; /* #58a6ff */
+  }
+}
